@@ -3,6 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import config from "../config/config";
+import type { AuthRequest } from "../middlewares/authMiddleware";
 import User from "../models/user";
 
 export const register = expressAsyncHandler(
@@ -81,10 +82,11 @@ export const login = expressAsyncHandler(
 );
 
 export const logout = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
+  console.log(`Auth user Id: ${req.userId}`);
   res.clearCookie("token");
   res.json({ message: "Logged out successfully" });
 };

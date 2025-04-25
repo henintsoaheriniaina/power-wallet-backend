@@ -40,7 +40,9 @@ export const register = expressAsyncHandler(
       sameSite: "lax",
     });
 
-    res.json({ message: "Account created", user: { username, email } });
+    res
+      .status(200)
+      .json({ message: "Account created", user: { username, email } });
   }
 );
 
@@ -74,7 +76,7 @@ export const login = expressAsyncHandler(
       sameSite: "lax",
     });
 
-    res.json({
+    res.status(200).json({
       message: "Logged in successfully",
       user: { username: user.username, email: user.email },
     });
@@ -88,5 +90,5 @@ export const logout = async (
 ) => {
   console.log(`Auth user Id: ${req.userId}`);
   res.clearCookie("token");
-  res.json({ message: "Logged out successfully" });
+  res.status(200).json({ message: "Logged out successfully" });
 };

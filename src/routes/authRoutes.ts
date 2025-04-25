@@ -4,10 +4,10 @@ import { requireAuth } from "../middlewares/authMiddleware";
 import validateWithZod from "../utils/validateWithZod";
 import { loginSchema, registerSchema } from "../validators/authValidator";
 
-const userRoutes = Router();
+const authRoutes = Router();
 
-userRoutes.post("/register", validateWithZod(registerSchema), register);
-userRoutes.post("/login", validateWithZod(loginSchema), login);
-userRoutes.delete("/logout", requireAuth, logout);
+authRoutes.post("/register", validateWithZod(registerSchema), register);
+authRoutes.post("/login", validateWithZod(loginSchema), login);
+authRoutes.delete("/logout", requireAuth, logout);
 
-export default userRoutes;
+export default authRoutes;

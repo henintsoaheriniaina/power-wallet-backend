@@ -1,6 +1,6 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import e from "express";
+import e, { type Request, type Response } from "express";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware";
 import logMiddleware from "./middlewares/logMiddleware";
 import authRoutes from "./routes/authRoutes";
@@ -15,6 +15,11 @@ app.use(cookieParser());
 
 // cron job
 job.start();
+
+//
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Server is running 👌😊" });
+});
 
 // log middleware
 app.use(logMiddleware);

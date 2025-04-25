@@ -12,12 +12,8 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("Tonga ato");
-
   const statusCode = res.statusCode || 500;
   const message = err.message || "Internal Server Error";
-
-  console.log(`Error: ${err.stack || err}`);
 
   res.status(statusCode).json({
     error: message,

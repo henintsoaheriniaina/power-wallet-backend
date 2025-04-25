@@ -4,6 +4,7 @@ import e from "express";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware";
 import logMiddleware from "./middlewares/logMiddleware";
 import authRoutes from "./routes/authRoutes";
+import balanceRoutes from "./routes/balanceRoutes";
 import transactionsRoutes from "./routes/transactionsRoutes";
 const app = e();
 
@@ -19,6 +20,9 @@ app.use("/api/auth", authRoutes);
 
 // transactions routes
 app.use("/api/transactions", transactionsRoutes);
+
+// balance routes
+app.use("/api/balance", balanceRoutes);
 
 // not found
 app.use(notFound);

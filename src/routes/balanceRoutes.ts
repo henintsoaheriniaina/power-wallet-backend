@@ -9,4 +9,5 @@ const balanceRoutes = e.Router();
 balanceRoutes.use(requireAuth);
 balanceRoutes.get("/", getBalance);
 balanceRoutes.put("/", validateWithZod(updateBalanceSchema), updateBalance);
+
 export default balanceRoutes;

@@ -56,6 +56,7 @@ export const getUsersTransactionById = expressAsyncHandler(
 export const updateTransaction = expressAsyncHandler(
   async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       res.status(404);
       throw new Error("Transaction not found");

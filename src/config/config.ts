@@ -16,4 +16,5 @@ const config: Config = {
     : "mongodb://localhost:27017/powerwallet",
   jwtSecret: process.env.JWT_SECRET ? process.env.JWT_SECRET : "1234",
 };
+
 export default config;

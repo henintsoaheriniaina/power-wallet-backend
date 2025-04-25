@@ -1,17 +1,16 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import e, { type Request, type Response } from "express";
+import e from "express";
 import config from "./config/config";
 import connectDb from "./db/db";
+import logMiddleware from "./middlewares/log";
 const app = e();
 
 app.use(cors());
 app.use(e.json());
 app.use(cookieParser());
+app.use(logMiddleware);
 
-app.get("/api", (req: Request, res: Response) => {
-  res.send("Server is running");
-});
 const startServer = async () => {
   try {
     await connectDb();

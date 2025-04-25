@@ -6,11 +6,15 @@ import logMiddleware from "./middlewares/logMiddleware";
 import authRoutes from "./routes/authRoutes";
 import balanceRoutes from "./routes/balanceRoutes";
 import transactionsRoutes from "./routes/transactionsRoutes";
+import job from "./utils/cron";
 const app = e();
 
 app.use(cors());
 app.use(e.json());
 app.use(cookieParser());
+
+// cron job
+job.start();
 
 // log middleware
 app.use(logMiddleware);

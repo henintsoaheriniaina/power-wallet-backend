@@ -6,9 +6,9 @@ PowerWallet is a personal finance management application. This repository contai
 
 ### Prerequisites
 
+- **Bun** (Recommended for native TypeScript support)
 - **Node.js** (Version 18 or higher recommended)
 - **MongoDB** or a MongoDB service (MongoDB Atlas, local, etc.)
-- **Bun** (Recommended for native TypeScript support)
 
 ### 1. Clone the project
 
@@ -19,16 +19,10 @@ cd power-wallet-backend
 
 ### 2. Install dependencies
 
-If you're using **Bun**, just run:
+Just run:
 
 ```bash
 bun install
-```
-
-Or if you're using **npm**, run the following command:
-
-```bash
-npm install
 ```
 
 ### 3. Configure environment variables
@@ -36,27 +30,22 @@ npm install
 Copy the `.env.example` file and rename it to `.env`. Modify the variables according to your environment.
 
 ```env
-PORT=5000
+PORT=8000
 MONGO_URI=mongodb://localhost:27017/power-wallet
 JWT_SECRET=yourSecret
 NODE_ENV=development
+API_URL=https://localhost:8000
 ```
 
 ### 4. Start the application
 
-In development, use Bun (or npm) to start the server:
+In development, use Bun to start the server:
 
 ```bash
 bun dev
 ```
 
-Or with **npm**:
-
-```bash
-npm run dev
-```
-
-The server will run on port `5000` by default. You can configure this in the `.env` file.
+The server will run on port `8000` by default. You can configure this in the `.env` file.
 
 ## 📚 Project Structure
 
@@ -64,24 +53,33 @@ Here’s the structure of the backend project:
 
 ```plaintext
 src/
+├── config/               # Environnement variables
+│   └── config.ts
 ├── controllers/          # Logic for handling requests
 │   ├── authController.ts
 │   ├── transactionController.ts
 │   └── balanceController.ts
+├── db/                   # Database connection
+│   └── db.ts
 ├── middleware/           # Middlewares for error handling and authentication
 │   ├── authMiddleware.ts
-│   └── errorMiddleware.ts
+│   ├── errorMiddleware.ts
+│   └── logMiddleware.ts
 ├── models/               # Mongoose models
-│   ├── User.ts
-│   └── Transaction.ts
+│   ├── user.ts
+│   ├── transaction.ts
+│   └── balance.ts
 ├── routes/               # Route definitions
 │   ├── auth.ts
 │   ├── transaction.ts
 │   └── balance.ts
-├── validators/           # Zod validation schemas
-│   ├── transactionValidator.ts
 ├── utils/                # Utility functions
+│   ├── cron.ts
 │   └── validateWithZod.ts
+├── validators/           # Zod validation schemas
+│   ├── authValidator.ts
+│   ├── balanceValidator.ts
+│   └── transactionValidator.ts
 ├── app.ts                # Main entry point
 └── index.ts              # Server startup
 ```
@@ -115,6 +113,9 @@ src/
   }
   ```
 
+- **DELETE /api/auth/logout**  
+  Login out route.
+
 ### 2. Transactions
 
 - **GET /api/transactions**  
@@ -134,14 +135,44 @@ src/
   }
   ```
 
+- **GET /api/transaction/:id**  
+  Get transaction by Id for the authenticated user.
+- **PUT /api/transaction/:id**  
+  Update a transaction.
+
+  **Body:**
+
+  ```json
+  {
+    "type": "expense",
+    "amount": 5000,
+    "description": "PC upgrade",
+    "date": "2025-04-25"
+  }
+  ```
+
+- **DELETE /api/transaction/:id**  
+  Delete a transaction .
+
 ### 3. Balance
 
 - **GET /api/balance**  
-  Get the current balance based on the user's transactions.
+  Get the current balance based on the user's transactions or create if it doesn't exist.
+- **PUT /api/balance**  
+  Update the current balance based on the transaction's type.
+
+  **Body:**
+
+  ```json
+  {
+    "transactionType": "expense",
+    "amount": 5000
+  }
+  ```
 
 ## 🛠️ Technologies Used
 
-- **Express** — Minimal web framework for Node.js
+- **Express with Typescript** — Minimal web framework for Node.js
 - **MongoDB** — NoSQL database
 - **Mongoose** — ODM for MongoDB
 - **Zod** — Data validation on the server side
@@ -160,6 +191,10 @@ Unit and integration tests can be added as the project evolves. You can set up t
 ## 📦 Deployment
 
 To deploy to a server or cloud service (like **Heroku** or **DigitalOcean**), follow the specific configuration steps for each platform. Make sure to properly configure environment variables and ensure MongoDB is accessible.
+
+## 🌐 Live Deployment
+
+The backend is deployed and accessible at: [https://power-wallet-backend.onrender.com](https://power-wallet-backend.onrender.com)
 
 ---
 

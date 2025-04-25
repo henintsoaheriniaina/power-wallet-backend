@@ -88,7 +88,6 @@ export const logout = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(`Auth user Id: ${req.userId}`);
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
 };

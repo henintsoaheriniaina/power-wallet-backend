@@ -7,6 +7,11 @@ import {
   updateTransaction,
 } from "../controllers/transactionController";
 import { requireAuth } from "../middlewares/authMiddleware";
+import validateWithZod from "../utils/validateWithZod";
+import {
+  createTransactionSchema,
+  updateTransactionSchema,
+} from "../validators/transactionValidator";
 
 const transactionsRoutes = e.Router();
 
@@ -14,11 +19,15 @@ const transactionsRoutes = e.Router();
 transactionsRoutes.use(requireAuth);
 
 transactionsRoutes.get("/", getUsersTransactions);
-transactionsRoutes.post("/", createTransaction);
+transactionsRoutes.post(
+  "/",
+  validateWithZod(createTransactionSchema),
+  createTransaction
+);
 transactionsRoutes
   .route("/:id")
   .get(getUsersTransactionById)
-  .put(updateTransaction)
+  .put(validateWithZod(updateTransactionSchema), updateTransaction)
   .delete(deleteTransaction);
 
 export default transactionsRoutes;
